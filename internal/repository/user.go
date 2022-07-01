@@ -2,15 +2,13 @@ package repository
 
 import (
 	"context"
-	"errors"
-	"strconv"
+	"fmt"
 	"strings"
 
 	"github.com/Final-Project-Kelompok-3/authentications/internal/dto"
-	"github.com/Final-Project-Kelompok-3/authentications/internal/middleware"
 	"github.com/Final-Project-Kelompok-3/authentications/internal/model"
-
 	"golang.org/x/crypto/bcrypt"
+
 	"gorm.io/gorm"
 )
 
@@ -21,7 +19,6 @@ type User interface {
 	Create(ctx context.Context, user model.User) error
 	Update(ctx context.Context, ID uint, data map[string]interface{}) error
 	Delete(ctx context.Context, ID uint) error
-	Login(ctx context.Context, email, password string) (string, error)
 }
 
 type user struct {
@@ -80,27 +77,19 @@ func (u *user) Create(ctx context.Context, user model.User) error {
 }
 
 func (u *user) Update(ctx context.Context, ID uint, data map[string]interface{}) error {
+	
+	if data["password"] != nil {
+		pss := fmt.Sprintf("%v", data["password"])
+		bytes, _ := bcrypt.GenerateFromPassword([]byte(pss), bcrypt.DefaultCost)
+		data["password"] = string(bytes)
+	}
 
 	err := u.Db.WithContext(ctx).Where("id = ?", ID).Model(&model.User{}).Updates(data).Error
 	return err
 }
 
 func (u *user) Delete(ctx context.Context, ID uint) error {
+	
 	err := u.Db.WithContext(ctx).Where("id = ?", ID).Delete(&model.User{}).Error
 	return err
-}
-
-func (u *user) Login(ctx context.Context, email, password string) (string, error) {
-	
-	user, err := u.FindByEmail(ctx, email)
-	if err != nil {
-		return "", err
-	}
-
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
-	if err != nil {
-		return "", errors.New("email and password don't match")
-	}
-
-	return middleware.CreateToken(strconv.FormatUint(uint64(user.ID), 10))
 }
