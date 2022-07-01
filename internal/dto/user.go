@@ -1,21 +1,27 @@
 package dto
 
 type CreateUserRequest struct {
-	RoleID    int    `json:"roleId" validate:"required"`
-	FirstName string `json:"firstName" validate:"required"`
-	LastName  string `json:"lastName" validate:"nullable"`
+	RoleID    int    `json:"role_id" validate:"required"`
+	FirstName string `json:"first_name" validate:"required"`
+	LastName  string `json:"last_name" validate:"required"`
 	Email     string `json:"email" validate:"required,email"`
 	Password  string `json:"password" validate:"required"`
-	Verified  bool   `json:"verified" validate:"required"`
 }
 
 type UpdateUserRequest struct {
-	Name     *string `json:"name"`
-	Email    *string `json:"email" validate:"email"`
-	Password *string `json:"password"`
+	RoleID    *int    `json:"role_id"`
+	FirstName *string `json:"first_name"`
+	LastName  *string `json:"last_name"`
+	Email     *string `json:"email" validate:"email"`
+	Password  *string `json:"password"`
 }
 
-type LoginUserRequest struct {
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required"`
+type UserResponse struct {
+	ID        int    `json:"id"`
+	RoleID    int    `json:"role_id"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Email     string `json:"email" validate:"email"`
+	CreatedAt string `json:"created_at"`
+	UpdatedAt string `json:"deleted_at"`
 }

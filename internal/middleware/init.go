@@ -18,7 +18,7 @@ func Init(e *echo.Echo) {
 			AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
 		}),
 		echoMiddleware.LoggerWithConfig(echoMiddleware.LoggerConfig{
-			Format:           " ${host} | ${time_custom} | ${status} | ${latency_human} | ${remote_ip} | ${method} | ${uri} ",
+			Format:           "${time_custom} | ${status} | ${method} | ${host}${uri} | ${latency_human} | ${remote_ip} \n",
 			CustomTimeFormat: "2006/01/02 15:04:05",
 			Output:           os.Stdout,
 		}),
