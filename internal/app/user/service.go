@@ -17,7 +17,6 @@ type service struct {
 }
 
 type Service interface {
-	Login(ctx context.Context, email, password string) (string, error)
 	FindAll(ctx context.Context, payload *dto.SearchGetRequest) (*dto.SearchGetResponse[model.User], error)
 	FindByID(ctx context.Context, payload *dto.ByIDRequest) (*model.User, error)
 	Create(ctx context.Context, payload *dto.CreateUserRequest) (string, error)
@@ -29,19 +28,6 @@ func NewService(f *factory.Factory) Service {
 	return &service{
 		UserRepository: f.UserRepository,
 	}
-}
-
-func (s *service) Login(ctx context.Context, email, password string) (string, error) {
-	
-	token, err := s.UserRepository.Login(ctx, email, password)
-	if err != nil {
-		if err == constant.RecordNotFound {
-			return "", res.ErrorBuilder(&res.ErrorConstant.NotFound, err)
-		}
-		return "", res.ErrorBuilder(&res.ErrorConstant.InternalServerError, err)
-	}
-
-	return token, nil
 }
 
 func (s *service) FindAll(ctx context.Context, payload *dto.SearchGetRequest) (*dto.SearchGetResponse[model.User], error) {
@@ -72,8 +58,11 @@ func (s *service) FindByID(ctx context.Context, payload *dto.ByIDRequest) (*mode
 }
 
 func (s *service) Create(ctx context.Context, payload *dto.CreateUserRequest) (string, error) {
-	
+
 	var user = model.User{
+		RoleID: 	payload.RoleID,
+		FirstName: 	payload.FirstName,
+		LastName: 	payload.LastName,
 		Email:      payload.Email,
 		Password: 	payload.Password,
 	}
@@ -89,8 +78,14 @@ func (s *service) Create(ctx context.Context, payload *dto.CreateUserRequest) (s
 func (s *service) Update(ctx context.Context, ID uint, payload *dto.UpdateUserRequest) (string, error) {
 	var data = make(map[string]interface{})
 
-	if payload.Name != nil {
-		data["name"] = payload.Name
+	if payload.RoleID != nil {
+		data["role_id"] = payload.RoleID
+	}
+	if payload.FirstName != nil {
+		data["first_name"] = payload.FirstName
+	}
+	if payload.LastName != nil {
+		data["last_name"] = payload.LastName
 	}
 	if payload.Email != nil {
 		data["email"] = payload.Email

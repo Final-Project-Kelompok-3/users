@@ -21,21 +21,6 @@ func NewHandler(f *factory.Factory) *handler {
 	}
 }
 
-
-func (h *handler) Login(c echo.Context) error {
-	email := c.FormValue("email")
-	password := c.FormValue("password")
-	
-	token, err := h.service.Login(c.Request().Context(), email, password)
-	if err != nil {
-		return res.ErrorResponse(err).Send(c)
-	}
-
-	result := map[string]interface{}{"token":token}
-
-	return res.SuccessResponse(result).Send(c)
-}
-
 func (h *handler) Get(c echo.Context) error {
 
 	payload := new(dto.SearchGetRequest)
@@ -79,9 +64,11 @@ func (h *handler) GetByID(c echo.Context) error {
 func (h *handler) Create(c echo.Context) error {
 
 	payload := new(dto.CreateUserRequest)
+
 	if err := c.Bind(payload); err != nil {
 		return res.ErrorBuilder(&res.ErrorConstant.BadRequest, err).Send(c)
 	}
+	
 	if err := c.Validate(payload); err != nil {
 		response := res.ErrorBuilder(&res.ErrorConstant.Validation, err)
 		return response.Send(c)
