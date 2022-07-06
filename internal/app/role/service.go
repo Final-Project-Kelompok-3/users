@@ -3,13 +3,13 @@ package role
 import (
 	"context"
 
-	"github.com/Final-Project-Kelompok-3/authentications/pkg/constant"
-	res "github.com/Final-Project-Kelompok-3/authentications/pkg/util/response"
+	"github.com/Final-Project-Kelompok-3/users/pkg/constant"
+	res "github.com/Final-Project-Kelompok-3/users/pkg/util/response"
 
-	"github.com/Final-Project-Kelompok-3/authentications/internal/dto"
-	"github.com/Final-Project-Kelompok-3/authentications/internal/factory"
-	"github.com/Final-Project-Kelompok-3/authentications/internal/model"
-	"github.com/Final-Project-Kelompok-3/authentications/internal/repository"
+	"github.com/Final-Project-Kelompok-3/users/internal/dto"
+	"github.com/Final-Project-Kelompok-3/users/internal/factory"
+	"github.com/Final-Project-Kelompok-3/users/internal/model"
+	"github.com/Final-Project-Kelompok-3/users/internal/repository"
 )
 
 type Service interface {

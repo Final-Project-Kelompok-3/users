@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Final-Project-Kelompok-3/authentications/internal/dto"
-	"github.com/Final-Project-Kelompok-3/authentications/internal/model"
+	"github.com/Final-Project-Kelompok-3/users/internal/dto"
+	"github.com/Final-Project-Kelompok-3/users/internal/model"
 	"golang.org/x/crypto/bcrypt"
 
 	"gorm.io/gorm"

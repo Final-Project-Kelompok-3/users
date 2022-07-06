@@ -3,10 +3,10 @@ package user
 import (
 	"strconv"
 
-	res "github.com/Final-Project-Kelompok-3/authentications/pkg/util/response"
+	res "github.com/Final-Project-Kelompok-3/users/pkg/util/response"
 
-	"github.com/Final-Project-Kelompok-3/authentications/internal/dto"
-	"github.com/Final-Project-Kelompok-3/authentications/internal/factory"
+	"github.com/Final-Project-Kelompok-3/users/internal/dto"
+	"github.com/Final-Project-Kelompok-3/users/internal/factory"
 	_ "github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 )

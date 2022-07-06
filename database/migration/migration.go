@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/Final-Project-Kelompok-3/authentications/database"
-	"github.com/Final-Project-Kelompok-3/authentications/internal/model"
+	"github.com/Final-Project-Kelompok-3/users/database"
+	"github.com/Final-Project-Kelompok-3/users/internal/model"
 )
 
 // please add new model in next index for consistency migrate and rollback

@@ -1,7 +1,7 @@
 package role
 
 import (
-	"github.com/Final-Project-Kelompok-3/authentications/internal/middleware"
+	"github.com/Final-Project-Kelompok-3/users/internal/middleware"
 	"github.com/labstack/echo/v4"
 )
 

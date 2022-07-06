@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/Final-Project-Kelompok-3/authentications/pkg/util/validator"
+	"github.com/Final-Project-Kelompok-3/users/pkg/util/validator"
 
 	"github.com/labstack/echo/v4"
 	echoMiddleware "github.com/labstack/echo/v4/middleware"

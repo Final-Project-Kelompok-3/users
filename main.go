@@ -4,11 +4,11 @@ import (
 	"flag"
 	"os"
 
-	"github.com/Final-Project-Kelompok-3/authentications/database"
-	"github.com/Final-Project-Kelompok-3/authentications/database/migration"
-	"github.com/Final-Project-Kelompok-3/authentications/internal/factory"
-	"github.com/Final-Project-Kelompok-3/authentications/internal/http"
-	"github.com/Final-Project-Kelompok-3/authentications/internal/middleware"
+	"github.com/Final-Project-Kelompok-3/users/database"
+	"github.com/Final-Project-Kelompok-3/users/database/migration"
+	"github.com/Final-Project-Kelompok-3/users/internal/factory"
+	"github.com/Final-Project-Kelompok-3/users/internal/http"
+	"github.com/Final-Project-Kelompok-3/users/internal/middleware"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 )

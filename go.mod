@@ -1,4 +1,4 @@
-module github.com/Final-Project-Kelompok-3/authentications
+module github.com/Final-Project-Kelompok-3/users
 
 go 1.18
 
