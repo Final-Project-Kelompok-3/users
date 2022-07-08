@@ -10,7 +10,7 @@ import (
 type User struct {
 	Model
 
-	RoleID     		int 	`json:"roleId" gorm:"size:200;not null"`
+	RoleID     		uint 	`json:"roleId" gorm:"not null"`
 	FirstName     	string 	`json:"firstName" gorm:"size:200;not null"`
 	LastName     	string 	`json:"lastName" gorm:"size:200;not null"`
 	Email    		string 	`json:"email" gorm:"size:200;not null"`

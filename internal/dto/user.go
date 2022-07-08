@@ -1,7 +1,7 @@
 package dto
 
 type CreateUserRequest struct {
-	RoleID    int    `json:"role_id" validate:"required"`
+	RoleID    uint   `json:"role_id" validate:"required"`
 	FirstName string `json:"first_name" validate:"required"`
 	LastName  string `json:"last_name" validate:"required"`
 	Email     string `json:"email" validate:"required,email"`
@@ -9,16 +9,21 @@ type CreateUserRequest struct {
 }
 
 type UpdateUserRequest struct {
-	RoleID    *int    `json:"role_id"`
+	RoleID    *uint   `json:"role_id"`
 	FirstName *string `json:"first_name"`
 	LastName  *string `json:"last_name"`
 	Email     *string `json:"email" validate:"email"`
 	Password  *string `json:"password"`
 }
 
+type LoginUserRequest struct {
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required"`
+}
+
 type UserResponse struct {
-	ID        int    `json:"id"`
-	RoleID    int    `json:"role_id"`
+	ID        uint   `json:"id"`
+	RoleID    uint   `json:"role_id"`
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
 	Email     string `json:"email" validate:"email"`

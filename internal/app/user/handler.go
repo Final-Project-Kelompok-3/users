@@ -21,6 +21,50 @@ func NewHandler(f *factory.Factory) *handler {
 	}
 }
 
+func (h *handler) Register(c echo.Context) error {
+
+	payload := new(dto.CreateUserRequest)
+
+	if err := c.Bind(payload); err != nil {
+		return res.ErrorBuilder(&res.ErrorConstant.BadRequest, err).Send(c)
+	}
+	
+	if err := c.Validate(payload); err != nil {
+		response := res.ErrorBuilder(&res.ErrorConstant.Validation, err)
+		return response.Send(c)
+	}
+
+	result, err := h.service.Register(c.Request().Context(), payload)
+	if err != nil {
+		return res.ErrorResponse(err).Send(c)
+	}
+
+	return res.SuccessResponse(result).Send(c)
+}
+
+func (h *handler) Login(c echo.Context) error {
+
+	payload := new(dto.LoginUserRequest)
+
+	if err := c.Bind(payload); err != nil {
+		return res.ErrorBuilder(&res.ErrorConstant.BadRequest, err).Send(c)
+	}
+	
+	if err := c.Validate(payload); err != nil {
+		response := res.ErrorBuilder(&res.ErrorConstant.Validation, err)
+		return response.Send(c)
+	}
+	
+	token, err := h.service.Login(c.Request().Context(), payload.Email, payload.Password)
+	if err != nil {
+		return res.ErrorResponse(err).Send(c)
+	}
+
+	result := map[string]interface{}{"token":token}
+
+	return res.SuccessResponse(result).Send(c)
+}
+
 func (h *handler) Get(c echo.Context) error {
 
 	payload := new(dto.SearchGetRequest)

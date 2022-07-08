@@ -9,6 +9,7 @@ import (
 
 func NewHttp(e *echo.Echo, f *factory.Factory) {
 
-	role.NewHandler(f).Route(e.Group("/roles"))
-	user.NewHandler(f).Route(e.Group("/users"))
+	v1 := e.Group("user/v1")
+	role.NewHandler(f).Route(v1.Group("/roles"))
+	user.NewHandler(f).Route(v1.Group("/users"))
 }

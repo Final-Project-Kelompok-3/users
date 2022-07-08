@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"errors"
 
 	"github.com/Final-Project-Kelompok-3/users/pkg/constant"
 	res "github.com/Final-Project-Kelompok-3/users/pkg/util/response"
@@ -17,6 +18,8 @@ type service struct {
 }
 
 type Service interface {
+	Register(ctx context.Context, payload *dto.CreateUserRequest) (string, error)
+	Login(ctx context.Context, email, password string) (string, error)
 	FindAll(ctx context.Context, payload *dto.SearchGetRequest) (*dto.SearchGetResponse[model.User], error)
 	FindByID(ctx context.Context, payload *dto.ByIDRequest) (*model.User, error)
 	Create(ctx context.Context, payload *dto.CreateUserRequest) (string, error)
@@ -30,15 +33,51 @@ func NewService(f *factory.Factory) Service {
 	}
 }
 
+func (s *service) Register(ctx context.Context, payload *dto.CreateUserRequest) (string, error) {
+
+	data, _ := s.UserRepository.FindByEmail(ctx, payload.Email)
+	if (data != model.User{}) {
+		return "", res.ErrorBuilder(&res.ErrorConstant.Duplicate, errors.New("email already exist"))
+	}
+
+	var user = model.User{
+		RoleID: 	payload.RoleID,
+		FirstName: 	payload.FirstName,
+		LastName: 	payload.LastName,
+		Email:      payload.Email,
+		Password: 	payload.Password,
+	}
+
+	err := s.UserRepository.Create(ctx, user)
+	if err != nil {
+		return "", res.ErrorBuilder(&res.ErrorConstant.InternalServerError, err)
+	}
+
+	return "success", nil
+}
+
+func (s *service) Login(ctx context.Context, email, password string) (string, error) {
+	
+	token, err := s.UserRepository.Login(ctx, email, password)
+	if err != nil {
+		if err == constant.RecordNotFound {
+			return "", res.ErrorBuilder(&res.ErrorConstant.NotFound, err)
+		}
+		return "", res.ErrorBuilder(&res.ErrorConstant.InternalServerError, err)
+	}
+
+	return token, nil
+}
+
 func (s *service) FindAll(ctx context.Context, payload *dto.SearchGetRequest) (*dto.SearchGetResponse[model.User], error) {
 	
-	Books, info, err := s.UserRepository.FindAll(ctx, payload, &payload.Pagination)
+	Users, info, err := s.UserRepository.FindAll(ctx, payload, &payload.Pagination)
 	if err != nil {
 		return nil, res.ErrorBuilder(&res.ErrorConstant.InternalServerError, err)
 	}
 	
 	result := new(dto.SearchGetResponse[model.User])
-	result.Datas = Books
+	result.Datas = Users
 	result.PaginationInfo = *info
 
 	return result, nil
@@ -58,6 +97,11 @@ func (s *service) FindByID(ctx context.Context, payload *dto.ByIDRequest) (*mode
 }
 
 func (s *service) Create(ctx context.Context, payload *dto.CreateUserRequest) (string, error) {
+
+	data, _ := s.UserRepository.FindByEmail(ctx, payload.Email)
+	if (data != model.User{}) {
+		return "", res.ErrorBuilder(&res.ErrorConstant.Duplicate, errors.New("email already exist"))
+	}
 
 	var user = model.User{
 		RoleID: 	payload.RoleID,

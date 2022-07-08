@@ -6,6 +6,7 @@ import (
 
 	"github.com/Final-Project-Kelompok-3/users/database"
 	"github.com/Final-Project-Kelompok-3/users/database/migration"
+	"github.com/Final-Project-Kelompok-3/users/database/seeder"
 	"github.com/Final-Project-Kelompok-3/users/internal/factory"
 	"github.com/Final-Project-Kelompok-3/users/internal/http"
 	"github.com/Final-Project-Kelompok-3/users/internal/middleware"
@@ -28,14 +29,14 @@ func main() {
 
 	flag.StringVar(
 		&m,
-		"migrate",
+		"db",
 		"run",
 		`this argument for check if user want to migrate table, rollback table, or status migration
 
 to use this flag:
-	use -migrate=migrate for migrate table
-	use -migrate=rollback for rollback table
-	use -migrate=status for get status migration`,
+	use -db=migrate for migrate table
+	use -db=rollback for rollback table
+	use -db=status for get status migration`,
 	)
 	flag.Parse()
 
@@ -47,6 +48,9 @@ to use this flag:
 		return
 	} else if m == "status" {
 		migration.Status()
+		return
+	} else if m == "seed" {
+		seeder.Seed()
 		return
 	}
 
