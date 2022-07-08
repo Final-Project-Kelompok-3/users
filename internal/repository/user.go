@@ -2,17 +2,20 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 
-	"github.com/Final-Project-Kelompok-3/authentications/internal/dto"
-	"github.com/Final-Project-Kelompok-3/authentications/internal/model"
+	"github.com/Final-Project-Kelompok-3/users/internal/dto"
+	"github.com/Final-Project-Kelompok-3/users/internal/middleware"
+	"github.com/Final-Project-Kelompok-3/users/internal/model"
 	"golang.org/x/crypto/bcrypt"
 
 	"gorm.io/gorm"
 )
 
 type User interface {
+	Login(ctx context.Context, email, password string) (string, error)
 	FindAll(ctx context.Context, payload *dto.SearchGetRequest, paginate *dto.Pagination) ([]model.User, *dto.PaginationInfo, error)
 	FindByID(ctx context.Context, ID uint) (model.User, error)
 	FindByEmail(ctx context.Context, email string) (model.User, error)
@@ -27,6 +30,21 @@ type user struct {
 
 func NewUser(db *gorm.DB) *user {
 	return &user{db}
+}
+
+func (u *user) Login(ctx context.Context, email, password string) (string, error) {
+	
+	user, err := u.FindByEmail(ctx, email)
+	if err != nil {
+		return "", err
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if err != nil {
+		return "", errors.New("email and password don't match")
+	}
+
+	return middleware.CreateToken(user)
 }
 
 func (u *user) FindAll(ctx context.Context, payload *dto.SearchGetRequest, paginate *dto.Pagination) ([]model.User, *dto.PaginationInfo, error) {

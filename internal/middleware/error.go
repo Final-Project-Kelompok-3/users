@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 
-	res "github.com/Final-Project-Kelompok-3/authentications/pkg/util/response"
+	res "github.com/Final-Project-Kelompok-3/users/pkg/util/response"
 
 	"github.com/labstack/echo/v4"
 )

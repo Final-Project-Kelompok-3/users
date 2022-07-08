@@ -1,0 +1,9 @@
+version: "2.6.0"
+
+services:
+  service_user:
+    build: .
+    image: cocomdidin/service_user:latest
+    container_name: service_user
+    ports:
+      - 8080:8080
