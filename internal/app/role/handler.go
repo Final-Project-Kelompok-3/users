@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"strconv"
 
-	res "github.com/Final-Project-Kelompok-3/authentications/pkg/util/response"
+	res "github.com/Final-Project-Kelompok-3/users/pkg/util/response"
 
-	"github.com/Final-Project-Kelompok-3/authentications/internal/dto"
-	"github.com/Final-Project-Kelompok-3/authentications/internal/factory"
+	"github.com/Final-Project-Kelompok-3/users/internal/dto"
+	"github.com/Final-Project-Kelompok-3/users/internal/factory"
 	"github.com/labstack/echo/v4"
 )
 

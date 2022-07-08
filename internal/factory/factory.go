@@ -1,7 +1,7 @@
 package factory
 
 import (
-	"github.com/Final-Project-Kelompok-3/authentications/internal/repository"
+	"github.com/Final-Project-Kelompok-3/users/internal/repository"
 	"gorm.io/gorm"
 )
 

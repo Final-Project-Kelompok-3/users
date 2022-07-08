@@ -3,7 +3,7 @@ package response
 import (
 	"net/http"
 
-	"github.com/Final-Project-Kelompok-3/authentications/internal/dto"
+	"github.com/Final-Project-Kelompok-3/users/internal/dto"
 	"github.com/labstack/echo/v4"
 )
 

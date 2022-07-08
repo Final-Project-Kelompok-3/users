@@ -1,5 +1,5 @@
-# Authentications
-Ini repository untuk service authentication JWT
+# users
+Ini repository untuk service users
 
 1. Lakukan copy file ".env.example" beberapa environment variable bisa diakses package godotenv melalui command line seperti di bawah ini :
 ```
