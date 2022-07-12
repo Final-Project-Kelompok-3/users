@@ -21,24 +21,24 @@ type Service interface {
 }
 
 type service struct {
-	BookRepository repository.Role
+	RoleRepository repository.Role
 }
 
 func NewService(f *factory.Factory) Service {
 	return &service{
-		BookRepository: f.RoleRepository,
+		RoleRepository: f.RoleRepository,
 	}
 }
 
 func (s *service) FindAll(ctx context.Context, payload *dto.SearchGetRequest) (*dto.SearchGetResponse[model.Role], error) {
 	
-	Books, info, err := s.BookRepository.FindAll(ctx, payload, &payload.Pagination)
+	Roles, info, err := s.RoleRepository.FindAll(ctx, payload, &payload.Pagination)
 	if err != nil {
 		return nil, res.ErrorBuilder(&res.ErrorConstant.InternalServerError, err)
 	}
 	
 	result := new(dto.SearchGetResponse[model.Role])
-	result.Datas = Books
+	result.Datas = Roles
 	result.PaginationInfo = *info
 
 	return result, nil
@@ -46,7 +46,7 @@ func (s *service) FindAll(ctx context.Context, payload *dto.SearchGetRequest) (*
 
 func (s *service) FindByID(ctx context.Context, payload *dto.ByIDRequest) (*model.Role, error) {
 
-	data, err := s.BookRepository.FindByID(ctx, payload.ID)
+	data, err := s.RoleRepository.FindByID(ctx, payload.ID)
 	if err != nil {
 		if err == constant.RecordNotFound {
 			return nil, res.ErrorBuilder(&res.ErrorConstant.NotFound, err)
@@ -64,7 +64,7 @@ func (s *service) Create(ctx context.Context, payload *dto.CreateRoleRequest) (s
 		Description: payload.Description,
 	}
 
-	err := s.BookRepository.Create(ctx, role)
+	err := s.RoleRepository.Create(ctx, role)
 	if err != nil {
 		return "", res.ErrorBuilder(&res.ErrorConstant.InternalServerError, err)
 	}
@@ -82,7 +82,7 @@ func (s *service) Update(ctx context.Context, ID uint, payload *dto.UpdateRoleRe
 		data["description"] = payload.Description
 	}
 
-	err := s.BookRepository.Update(ctx, ID, data)
+	err := s.RoleRepository.Update(ctx, ID, data)
 	if err != nil {
 		return "", res.ErrorBuilder(&res.ErrorConstant.InternalServerError, err)
 	}
@@ -91,7 +91,7 @@ func (s *service) Update(ctx context.Context, ID uint, payload *dto.UpdateRoleRe
 }
 
 func (s *service) Delete(ctx context.Context, ID uint) (*model.Role, error) {
-	data, err := s.BookRepository.FindByID(ctx, ID)
+	data, err := s.RoleRepository.FindByID(ctx, ID)
 	if err != nil {
 		if err == constant.RecordNotFound {
 			return nil, res.ErrorBuilder(&res.ErrorConstant.NotFound, err)
@@ -100,7 +100,7 @@ func (s *service) Delete(ctx context.Context, ID uint) (*model.Role, error) {
 		return nil, res.ErrorBuilder(&res.ErrorConstant.InternalServerError, err)
 	}
 
-	err = s.BookRepository.Delete(ctx, ID)
+	err = s.RoleRepository.Delete(ctx, ID)
 	if err != nil {
 		return nil, res.ErrorBuilder(&res.ErrorConstant.InternalServerError, err)
 	}
